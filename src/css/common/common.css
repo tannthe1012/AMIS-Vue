@@ -1,0 +1,31 @@
+.text-align-right {
+    text-align: right;
+}
+.text-align-center {
+    text-align: center;
+}
+.mi-icon-24 {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+}
+.mi-icon-14 {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+}
+.mi-icon-32 {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+}
+.mi-icon-16 {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
+}
+
