@@ -1,71 +1,66 @@
 <template>
-  <div class="cbx">
-    <div class="cbx-show" :class="{ 'error-combobox': error == true }">
-      <input
-        type="text"
-        @blur="validateCombobox(inputValue)"
-        @input="onChange"
-        @keydown.down="onArrowDown"
-        @keydown.up="onArrowUp"
-        @keydown.enter="onEnter"
-        v-model="inputValue"
-        ref="refinput"
-      />
-      <!-- <i class="fas fa-chevron-down cbx-icon-dropdown" @click="iconOnClick"></i> -->
-      <div class="combo-action" @click="iconOnClick">
-            <div class="mi-icon-16 icon-combo"></div>
+  <div>
+    <div class="cbx">
+      <div class="cbx-show" :class="{ 'error-combobox': error == true }">
+        <input
+          :title="errorMessage"
+          type="text"
+          @keydown.down="onArrowDown"
+          @keydown.up="onArrowUp"
+          @keydown.enter="onEnter"
+          v-model="inputValue"
+          ref="refinput"
+          readonly
+        />
+        <!-- <i class="fas fa-chevron-down cbx-icon-dropdown" @click="iconOnClick"></i> -->
+        <div class="combo-action" @click="iconOnClick">
+          <div class="mi-icon-16 icon-combo"></div>
+        </div>
       </div>
-    </div>
-    <div class="cbx-hide" v-show="isShowOption">
-      <div
-        class="cbx-select"
-        v-for="(item, index) in results"
-        :key="index"
-        :class="{
-          active: item.name == valueSelect,
-          'cbx-select-focus': index == arrowCounter,
-        }"
-        @click="select(item)"
-      >
-        {{ item.name }}
+      <div class="cbx-hide" v-show="isShowOption">
+        <div
+          class="cbx-select"
+          v-for="(item, index) in items"
+          :key="index"
+          :class="{
+            active: item.name == valueSelect,
+            'cbx-select-focus': index == arrowCounter,
+          }"
+          @click="select(item)"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "BaseComboBox",
-  props: {
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    item: Array,
-    valueInput: { type: String },
-    optionAll: { type: Object },
-    label: String,
-  },
-
+  name: "BaseDropdown",
   data() {
     return {
       error: false,
+      errorMessage: "",
       isShowOption: false,
-      valueSelect: this.valueInput,
-      inputValue: this.valueInput,
+      valueSelect: "10 bản ghi trên 1 trang",
+      inputValue: "10 bản ghi trên 1 trang",
       results: [],
       arrowCounter: -1,
-      items: [...this.item, { ...this.optionAll }],
+      items: [
+        { id: "5", name: "50 bản ghi trên 1 trang" },
+        { id: "4", name: "40 bản ghi trên 1 trang" },
+        { id: "3", name: "30 bản ghi trên 1 trang" },
+        { id: "2", name: "20 bản ghi trên 1 trang" },
+        { id: "1", name: "10 bản ghi trên 1 trang" },
+      ],
     };
   },
-
-  watch: {
-    item: function () {
-      this.items = [...this.item, { ...this.optionAll }];
-    },
-    valueSelect: function () {
-      this.$emit("result", this.valueSelect);
-    },
-  },
+//   watch: {
+    
+//     // valueSelect: function () {
+//     //   this.$emit("result", this.valueSelect);
+//     // },
+//   },
   /**
    * xử lí sự kiện click ra ngoài sẽ ẩn combobox
    * created By: NTTan (19/7/2021)
@@ -96,7 +91,7 @@ export default {
       this.isShowOption = false;
       this.inputValue = `${item.name}`;
       this.valueSelect = this.inputValue;
-      this.$refs.refinput.focus()
+      this.$refs.refinput.focus();
     },
     /**
      * Gán class active vào option được chọn
@@ -112,9 +107,6 @@ export default {
      * created By: NTTan (19/7/2021)
      */
     filterResult() {
-      if (this.optionAll === undefined) {
-        this.items = [...this.item];
-      }
       this.results = this.items.filter((item) =>
         item.name.toLowerCase().includes(this.inputValue.toLowerCase())
       );
@@ -143,7 +135,8 @@ export default {
      * created By: NTTan (19/7/2021)
      */
 
-    onArrowDown() {
+    onArrowDown(e) {
+        e.preventDefault();
       if (this.arrowCounter < this.results.length - 1) {
         this.arrowCounter = this.arrowCounter + 1;
       } else if (this.arrowCounter == this.results.length - 1) {
@@ -154,7 +147,9 @@ export default {
      * Hàm lí sự kiện sử dụng keyboard ArrowUp (phím lên)
      * created By: NTTan (19/7/2021)
      */
-    onArrowUp() {
+    onArrowUp(e) {
+        e.preventDefault();
+        
       if (this.arrowCounter > 0) {
         this.arrowCounter = this.arrowCounter - 1;
       } else if (this.arrowCounter == 0) {
@@ -173,34 +168,19 @@ export default {
       this.arrowCounter = -1;
       this.isShowOption = false;
     },
-    /**
-     * Hàm xử lí validate của combobox
-     * Created By: NTtan (21/7/2021)
-     */
-    validateCombobox(value) {
-      if (this.required == false) {
-        return;
-      }
-      if (this.optionAll === undefined) {
-        this.items = [...this.item];
-      }
-      if (!value) {
-        this.error = true;
-        this.$refs.refinput.title = `${this.label} không được phép bỏ trống`;
-      } else {
-        var obj = this.items.filter((item) => item.name == value);
-        if (obj.length == 0) {
-          this.error = true;
-          this.$refs.refinput.title = "Vui lòng chọn đúng các Option ở trên";
-        } else {
-          this.error = false;
-          this.$refs.refinput.title = "";
-        }
-      }
-    },
   },
 };
 </script>
 <style scoped>
 @import "../../css/common/combobox.css";
+.cbx {
+    margin-bottom: 0px;
+}
+.cbx-hide {
+    z-index: 200;
+    top: -166px;
+}
+/* .cbx-show input {
+    font-family: ;
+} */
 </style>

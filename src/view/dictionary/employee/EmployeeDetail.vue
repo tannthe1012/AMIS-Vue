@@ -1,238 +1,249 @@
 <template>
   <div id="modal" class="modal">
     <div class="form-employee">
-      <div class="close" id="btn-x-close" @click="showPopupCloseForm"></div>
-      <div class="header-form">THÔNG TIN NHÂN VIÊN</div>
-      <div class="form-main">
-        <div class="avatar">
-          <div class="img-avatar"></div>
-          <div class="caption-avatar">
-            <p>
-              (Vui lòng chọn có định <br />dạng<br />
-              .jpg,.jpeg,.png,.gif.)
-            </p>
-          </div>
+      <div class="ms-form-header">
+        <div class="ms-header-title">
+          <div class="header-form">Thông tin nhân viên</div>
+          <label class="form-label-checkbox" for="">
+            <BaseCheckBox />
+            <span class="slot-label">Là khách hàng</span>
+          </label>
+          <label class="form-label-checkbox" for="">
+            <BaseCheckBox />
+            <span class="slot-label">Là nhà cung cấp</span>
+          </label>
         </div>
-        <div class="form-user">
-          <div class="form-user-top">
-            <div class="content-form">A. THÔNG TIN CHUNG:</div>
-            <div class="form-row">
-              <BaseInput
-                v-model="currentEmployee.EmployeeCode"
-                label="Mã nhân viên"
-                :required="true"
-                ref="input1"
-              />
-              <BaseInput
-                v-model="currentEmployee.FullName"
-                label="Họ và tên"
-                :required="true"
-                ref="input2"
-              />
-            </div>
-            <div class="form-row">
-              <BaseInput
-                v-model="currentEmployee.DateOfBirth"
-                label="Ngày sinh"
-                :required="true"
-                type="date"
-                ref="input3"
-              />
-              <div class="form-input">
-                <label for="gender"
-                  >Giới tính(<span style="color: brown">*</span>)</label
-                ><br />
-
-                <BaseComboBox
-                  :required="true"
-                  v-bind:item="gender"
-                  v-bind:valueInput="formateGender(currentEmployee.Gender)"
-                  @result="(result) => fotmatDataCbb(result, 'gender')"
-                  ref="input4"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <BaseInput
-                v-model="currentEmployee.IdentityNumber"
-                label="Số CMTND/Căn cước"
-                :required="true"
-                ref="input5"
-              />
-              <BaseInput
-                v-model="currentEmployee.IdentityDate"
-                label="Số CMTND/Căn cước"
-                type="date"
-              />
-            </div>
-            <div class="form-row">
-              <BaseInput
-                v-model="currentEmployee.IdentityPlace"
-                label="Nơi cấp"
-              />
-            </div>
-            <div class="form-row">
-              <BaseInput
-                v-model="currentEmployee.Email"
-                label="Email"
-                type="email"
-                :required="true"
-                ref="input6"
-              />
-              <BaseInput
-                v-model="currentEmployee.PhoneNumber"
-                label="Số điện thoại"
-                :required="true"
-                ref="input7"
-              />
-            </div>
-          </div>
-          <div class="form-user-bottom">
-            <div class="content-form">B. THÔNG TIN CÔNG VIỆC</div>
-            <div class="form-row">
-              <div class="form-input">
-                <label for="position">Vị trí</label><br />
-                <BaseComboBox
-                  v-bind:item="position"
-                  v-bind:valueInput="currentEmployee.PositionName"
-                  @result="(result) => fotmatDataCbb(result, 'position')"
-                />
-              </div>
-              <div class="form-input">
-                <label for="department">Phòng ban</label><br />
-                <BaseComboBox
-                  v-bind:item="department"
-                  v-bind:valueInput="currentEmployee.DepartmentName"
-                  @result="(result) => fotmatDataCbb(result, 'department')"
-                />
-              </div>
-            </div>
-            <div class="form-row" id="form-salary">
-              <BaseInput
-                v-model="currentEmployee.PersonalTaxCode"
-                label="Mã số thuế cá nhân"
-              />
-              <BaseInput
-                v-model="currentEmployee.Salary"
-                label="Mức lương cơ bản"
-
-              />
-              <div id="vnd" style="font-style: italic; opacity: 0.8">(VNĐ)</div>
-            </div>
-            <div class="form-row">
-              <BaseInput
-                v-model="currentEmployee.JoinDate"
-                label="Ngày gia nhập công ty"
-                type="date"
-              />
-              <div class="form-input">
-                <label for="work-status">Tình trạng công việc</label><br />
-                <BaseComboBox
-                  v-bind:item="statuswork"
-                  v-bind:valueInput="sw"
-                  @result="(result) => fotmatDataCbb(result, 'workstatus')"
-                />
-              </div>
-            </div>
-          </div>
+        <div class="ms-form-close">
+          <div class="mi-icon-24 icon-help"></div>
+          <div class="mi-icon-24 icon-close" @click="btnCloseForm"></div>
         </div>
       </div>
-      <div class="form-button">
-        <div
-          class="btn-close"
-          id="employee-btn-close"
-          @click="showPopupCloseForm"
-        >
-          Hủy
+      <div class="ms-form-content">
+        <div class="form-content">
+          <div class="flex pd-b-12">
+            <div class="w-1/2">
+              <div class="p-r-26">
+                <div class="form-row">
+                  <div class="w-2/5">
+                    <div class="p-r-6">
+                      <BaseInput
+                        v-model="currentEmployee.EmployeeCode"
+                        ref="input1"
+                        label="Mã"
+                        :required="true"
+                      />
+                    </div>
+                  </div>
+                  <div class="w-3/5">
+                    <BaseInput
+                      v-model="currentEmployee.EmployeeName"
+                      ref="input2"
+                      label="Tên"
+                      :required="true"
+                    />
+                  </div>
+                </div>
+                <div class="form-row" style="flex-direction: column">
+                  <!-- <BaseInput label="Đơn vị" :required="true" /> -->
+                  <label class="flex" for="name">
+                    <div class="ms-title-input">Đơn vị</div>
+                    <div class="ms-input-title-require">&nbsp;*</div>
+                  </label>
+                  <BaseComboBox
+                    label="Đơn vị"
+                    :required="true"
+                    ref="input3"
+                    v-bind:item="department"
+                    v-bind:valueInput="currentEmployee.DepartmentName"
+                    @result="(result) => fotmatDataCbb(result, 'department')"
+                  />
+                </div>
+                <div class="form-row">
+                  <BaseInput
+                    v-model="currentEmployee.EmployeePosition"
+                    label="Chức danh"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="w-1/2">
+              <div class="form-row">
+                <div class="w-2/5">
+                  <div class="p-r-6">
+                    <BaseInput
+                      v-model="currentEmployee.DateOfBirth"
+                      label="Ngày sinh"
+                      type="date"
+                    />
+                  </div>
+                </div>
+                <div class="w-3/5">
+                  <BaseRadio
+                    v-model="currentEmployee.FullName"
+                    label="Giới tính"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="w-3/5">
+                  <div class="p-r-6">
+                    <BaseInput
+                      v-model="currentEmployee.IdentityNumber"
+                      label="Số CMND"
+                    />
+                  </div>
+                </div>
+                <div class="w-2/5">
+                  <BaseInput
+                    v-model="currentEmployee.IdentityDate"
+                    label="Ngày cấp"
+                    type="date"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <BaseInput
+                  v-model="currentEmployee.IdentityPlace"
+                  label="Nơi cấp"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-content-bottom">
+            <div class="form-row">
+              <BaseInput v-model="currentEmployee.Address" label="Địa chỉ" />
+            </div>
+            <div class="form-row" style="justify-content: end">
+              <div class="w-1/4">
+                <div class="p-r-6">
+                  <BaseInput
+                    v-model="currentEmployee.PhoneNumber"
+                    label="ĐT di động"
+                  />
+                </div>
+              </div>
+              <div class="w-1/4">
+                <div class="p-r-6">
+                  <BaseInput
+                    v-model="currentEmployee.TelephoneNumber"
+                    label="ĐT cố định"
+                  />
+                </div>
+              </div>
+              <div class="w-1/4">
+                <div class="p-r-6">
+                  <BaseInput
+                    v-model="currentEmployee.Email"
+                    label="Email"
+                    type="email"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row" style="justify-content: end">
+              <div class="w-1/4">
+                <div class="p-r-6">
+                  <BaseInput
+                    v-model="currentEmployee.BankAccountNumber"
+                    label="Tài khoản ngân hàng"
+                  />
+                </div>
+              </div>
+              <div class="w-1/4">
+                <div class="p-r-6">
+                  <BaseInput
+                    v-model="currentEmployee.BankName"
+                    label="Tên ngân hàng"
+                  />
+                </div>
+              </div>
+              <div class="w-1/4">
+                <div class="p-r-6">
+                  <BaseInput
+                    v-model="currentEmployee.BankBranchName"
+                    label="Chi nhánh"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <button
-          class="m-btn m-btn-default"
-          id="btn-save"
-          @click="btnSaveOnClick"
-        >
-          <div class="m-btn-icon icon-add"></div>
-          <div class="btn-text">Lưu</div>
-        </button>
+        <div class="footer-container">
+          <div class="divide"></div>
+          <div class="form-footer">
+            <div class="form-footer-left">
+              <button class="m-btn-default" @click="closeForm">Hủy</button>
+            </div>
+            <div class="form-footer-right">
+              <button class="m-btn-default" @click="btnSaveOnClick">Cất</button>
+              <button class="m-btn" @click="btnSaveAndShowForm">
+                Cất và Thêm
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import moment from "moment";
-import BaseComboBox from "../../../components/base/BaseComboBox.vue";
+import BaseCheckBox from "../../../components/base/BaseCheckBox.vue";
 import BaseInput from "../../../components/base/BaseInput.vue";
-import {toast} from "../../../mixins/mixin.js"
+import BaseRadio from "../../../components/base/BaseRadio.vue";
+import BaseComboBox from "../../../components/base/BaseComboBox.vue";
+import { api } from "../../../mixins/api";
 export default {
   name: "EmployeeDetail",
-  mixins: [toast],
+  mixins: [api],
   components: {
-    BaseComboBox,
+    BaseCheckBox,
     BaseInput,
-  },
-  data() {
-    return {
-      gender: [
-        { id: 0, name: "Nữ" },
-        { id: 1, name: "Nam" },
-        { id: 2, name: "Không Xác Định" },
-      ],
-      statuswork: [
-        { id: 0, name: "Đang làm việc" },
-        { id: 1, name: "Đang thử việc" },
-        { id: 2, name: "Đã nghỉ việc" },
-        { id: 3, name: "Không Xác Định" },
-      ],
-      sw: "",
-    };
+    BaseRadio,
+    BaseComboBox,
   },
   props: {
     EmployeeDetail: { type: Object },
     department: { type: Array },
-    position: { type: Array },
+  },
+  data() {
+    return {
+      employeeDetail: { ...this.EmployeeDetail },
+    };
   },
   computed: {
     currentEmployee: function () {
       return {
-        ...this.EmployeeDetail,
-        DateOfBirth: this.formatDateToInput(this.EmployeeDetail?.DateOfBirth),
-        JoinDate: this.formatDateToInput(this.EmployeeDetail?.JoinDate),
-        IdentityDate: this.formatDateToInput(this.EmployeeDetail?.IdentityDate),
-        Salary: this.formatMoney(this.EmployeeDetail.Salary),
+        ...this.employeeDetail,
+        DateOfBirth: this.formatDateToInput(this.employeeDetail?.DateOfBirth),
+        IdentityDate: this.formatDateToInput(this.employeeDetail?.IdentityDate),
+      };
+    },
+    employeeStart: function () {
+      return {
+        ...this.employeeDetail,
+        DateOfBirth: this.formatDateToInput(this.employeeDetail?.DateOfBirth),
+        IdentityDate: this.formatDateToInput(this.employeeDetail?.IdentityDate),
       };
     },
   },
-
   methods: {
     /**
-     * Hàm xử lí đóng form Gửi lên EmployeeDetail
-     * Created By: NTTan(16/7/2021)
+     * Xử lý đầu ra của combobox
+     * Created By: NTTan (22/7/2021)
      */
-    showPopupCloseForm() {
-      this.$emit("showPopupCloseForm");
+    fotmatDataCbb(result) {
+      this.currentEmployee.DepartmentName = result;
+      this.currentEmployee.DepartmentId = this.findId(result, this.department);
     },
     /**
-     * Hàm thêm nhân viên
-     * Created By: NTTan(16/7/2021)
+     * Tìm id của combobox để gán vào obj để POST hoặc PUT
+     * Created By: NTTan (22/7/2021)
      */
-    btnSaveOnClick() {
-      let errors = [];
-      Object.entries(this.$refs).forEach((baseinput) => {
-        baseinput[1].$refs.refinput.focus();
-        baseinput[1].$refs.refinput.blur();
-        if (baseinput[1].error) {
-          errors.push(baseinput[1]);
-        }
-      });
-      if (errors.length == 0) {
-        this.formatMoneySalary();
-        this.$emit("saveOnClick", this.currentEmployee);
-      } else {
-        errors[0].$refs.refinput.focus();
-        this.addToast("error", "Bạn chưa nhập hết các trường dữ liệu");
-      }
+    findId(result, array) {
+      const obj = array.find((item) => item.name == result);
+      return obj.id;
     },
-    
     /**
      * Hàm format date vào các tr tương ứng
      * Created By: NTTan (15/7/2021)
@@ -243,80 +254,138 @@ export default {
       }
     },
     /**
-     * Hàm xử lí Gender để bind lên bảng
-     * Created By: NTTan (19/7/2021)
+     * Hàm kiểm tra xem obj có rỗng không
+     * Created By: NTTan (18/8/2021)
      */
-    formateGender(number) {
-      if (number == null) {
-        return "";
-      } else if (number == 1) {
-        return "Nam";
-      } else if (number == 0) {
-        return "Nữ";
+    isEmptyObject(obj) {
+      return JSON.stringify(obj) === "{}";
+    },
+    /**
+     * Hàm xử lí đóng form Gửi lên EmployeeDetail
+     * Created By: NTTan(16/7/2021)
+     */
+    btnCloseForm() {
+      var isShowPopup =
+        Object.entries(this.employeeStart).toString() ===
+        Object.entries(this.currentEmployee).toString();
+      if (isShowPopup == true) {
+        this.$emit("closeForm");
       } else {
-        return "Không Xác Định";
+        this.$emit("showPopupCloseForm");
       }
     },
     /**
-     * Xử lý đầu ra của combobox
-     * Created By: NTTan (22/7/2021)
+     * Hàm thêm nhân viên
+     * Created By: NTTan(16/7/2021)
      */
-    fotmatDataCbb(result, type) {
-      switch (type) {
-        case "gender":
-          this.currentEmployee.GenderName = result;
-          this.currentEmployee.Gender = this.findId(result, this.gender);
-          break;
-        case "position":
-          this.currentEmployee.PositionName = result;
-          this.currentEmployee.PositionId = this.findId(result, this.position);
-          break;
-        case "department":
-          this.currentEmployee.DepartmentName = result;
-          this.currentEmployee.DepartmentId = this.findId(
-            result,
-            this.department
+    async btnSaveOnClick() {
+      this.$store.state.componentError = [];
+
+      Object.entries(this.$refs).forEach((baseinput) => {
+        baseinput[1].$refs.refinput.focus();
+        baseinput[1].$refs.refinput.blur();
+        if (baseinput[1].error) {
+          this.$store.state.componentError.push(baseinput[1]);
+        }
+      });
+      if (!this.employeeStart.EmployeeId &&
+        this.currentEmployee.EmployeeCode != null &&
+        this.currentEmployee.EmployeeCode != ""
+      ) {
+        var isExist = await this.checkEmployeeCodeExist(
+          this.currentEmployee.EmployeeCode
+        );
+        if (isExist == false) {
+          this.$store.state.componentError = [];
+          this.$store.state.componentError.push(
+            Object.entries(this.$refs)[0][1]
           );
-          break;
-        case "workstatus":
-          this.currentEmployee.WorkStatus = this.findId(
-            result,
-            this.statuswork
-          );
-          break;
-        default:
-          break;
+          Object.entries(this.$refs)[0][1].$refs.refinput.title =
+            "Mã nhân viên đã tồn tại";
+        }
+      }
+      if (this.$store.state.componentError.length == 0) {
+        this.$emit("saveOnClick", this.currentEmployee);
+      } else {
+        var errorContext =
+          this.$store.state.componentError[0].$refs.refinput.title;
+        this.$emit("showPopupError", errorContext);
       }
     },
     /**
-     * Tìm id của combobox để gán vào obj để POST hoặc PUT 
-     * Created By: NTTan (22/7/2021)
+     * Hàm thêm nhân viên
+     * Created By: NTTan(16/7/2021)
      */
-    findId(result, array) {
-      const obj = array.find((item) => item.name == result);
-      return obj.id;
+    async btnSaveAndShowForm() {
+      this.$store.state.componentError = [];
+
+      Object.entries(this.$refs).forEach((baseinput) => {
+        baseinput[1].$refs.refinput.focus();
+        baseinput[1].$refs.refinput.blur();
+        if (baseinput[1].error) {
+          this.$store.state.componentError.push(baseinput[1]);
+        }
+      });
+      if (
+        !this.employeeStart.EmployeeId &&
+        this.currentEmployee.EmployeeCode != null &&
+        this.currentEmployee.EmployeeCode != ""
+      ) {
+        var isExist = await this.checkEmployeeCodeExist(
+          this.currentEmployee.EmployeeCode
+        );
+        if (isExist == false) {
+          this.$store.state.componentError = [];
+          this.$store.state.componentError.push(
+            Object.entries(this.$refs)[0][1]
+          );
+          Object.entries(this.$refs)[0][1].$refs.refinput.title =
+            "Mã nhân viên đã tồn tại";
+        }
+      }
+      if (this.$store.state.componentError.length == 0) {
+        this.$emit("saveAndShowForm", this.currentEmployee);
+        // reset form
+        this.employeeDetail = { DepartmentName: "" };
+        Object.entries(this.$refs).forEach((baseinput) => {
+          baseinput[1].$refs.refinput.value = "";
+        });
+      } else {
+        var errorContext =
+          this.$store.state.componentError[0].$refs.refinput.title;
+        this.$emit("showPopupError", errorContext);
+      }
     },
     /**
-     * Xử lý đầu ra của combobox
-     * Created By: NTTan (22/7/2021)
+     * Hàm xử lí nút Hủy trong form chi tiết nhân viên
+     * Created By: NTTan (18/8/2021)
      */
-    formatMoney(money) {
-      if (money == null) return "0";
-      else return money.toLocaleString("it-IT");
+    closeForm() {
+      this.$emit("closeForm");
     },
-    /**
-     * Hàm để xử lí đầu ra của Salary
-     * Created By: NTTan (2)
-     */
-    formatMoneySalary() {
-      this.currentEmployee.Salary = this.currentEmployee.Salary.replaceAll(".", "");
-      this.currentEmployee.Salary = this.currentEmployee.Salary.replaceAll(",", "");
-      this.currentEmployee.Salary = Number(this.currentEmployee.Salary)
-    }
   },
 };
 </script>
 
 <style scoped>
 @import "../../../css/common/form.css";
+.slot-label {
+  white-space: nowrap;
+  padding-left: 10px;
+  font-size: 13px;
+}
+.ms-input-title-require {
+  color: red;
+}
+.ms-title-input {
+  font-size: 12px;
+  white-space: nowrap;
+  font-family: notosans-bold;
+  cursor: grab;
+}
+.ms-form-content label {
+  max-height: 16px;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+}
 </style>

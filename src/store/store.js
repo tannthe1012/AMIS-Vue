@@ -5,6 +5,8 @@ import Vuex from "vuex"
 Vue.use(Vuex)
 const storeData = {
     state: {
+        statusPopup : "",
+        componentError: [],
         Toast: [
 
         ],

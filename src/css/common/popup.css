@@ -1,9 +1,4 @@
-body {
-    margin: 0;
-    font-family: GoogleSans-Regular;
-    font-size: 13px;
-    height: 100vh;
-}
+
 @font-face {
     font-family: 'GoogleSans-Bold';
     src: url('../../assets/font/GoogleSans-Bold.otf') format('opentype');
@@ -14,35 +9,79 @@ body {
 }
 
 .modal-popup {
-    /* display: block; */
+    /* display: none; */
+    display: flex;
+    align-items: center;
     /* Hidden by default */
-    position: absolute;
+    position: fixed;
     /* Stay in place */
-    top: 0px;
-    left: 0px;
-    z-index: 1;
+    z-index: 200;
     /* Sit on top */
     /* Location of the box */
     width: 100%;
+    top: 0;
+    left: 0;
     /* Full width */
     height: 100%;
     /* Full height */
     overflow: auto;
     /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
 }
 
 .popup {
-    border: 1px solid #E9EBEE;
+    /* border: 1px solid #E9EBEE;
     border-radius: 4px;
     align-items: center;
     position: relative;
     background-color: #ffffff;
     margin:auto;
     margin-top: 20%;
-    /* border: 1px solid rgE9EBEEb(212, 208, 208); */
-    width: 400px;
+    border: 1px solid rgE9EBEEb(212, 208, 208);
+    width: 400px; */
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    /* margin-top: 30px; */
+    /* border: 1px solid #888; */
+    position: absolute;
+    z-index: 200;
+    min-width: 380px;
+    max-width: 380px;
+    width: 900px;
+    box-shadow: 0 5px 20px 0 rgb(0 0 0 / 10%);
+    cursor: grab;
+    padding: 32px;
 }
-.popup .popup-btn-x {
+.content-popup {
+    display: flex;
+    align-items: flex-start;
+}
+.message-popup {
+    overflow: auto;
+    max-height: 400px;
+    margin-bottom: 32px;
+    padding-left: 16px;
+    padding-top: 12px;
+}
+.icon-question {
+    background: url(../../assets/imgs/Sprites.64af8f61.svg) no-repeat -826px -456px;
+}
+.icon-error {
+    background: url(../../assets/imgs/Sprites.64af8f61.svg) no-repeat -24px -954px;
+}
+.icon-warning {
+    background: url(../../assets/imgs/Sprites.64af8f61.svg) no-repeat -592px -456px;
+}
+.mess-line {
+    height: 1px;
+    background: #b8bcc3;
+    margin-bottom: 20px;
+}
+/* .popup .popup-btn-x {
     position: absolute;
     background-position: center;
     background-image: url(../../assets/icon/x.svg);
@@ -122,4 +161,4 @@ body {
 }
 .close-confirm-close i{
     color: #e7d530;
-}
+} */

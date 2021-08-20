@@ -5,7 +5,6 @@
     /* flex-direction: column; */
     background-color: #f4f5f6;
     transition: 0.5s ease;
-    overflow: auto;
     /* overflow-x: hidden; */
     padding-left: 20px;
 }
@@ -14,13 +13,13 @@
     src: url('../../assets/fonts/notosans-bold.3ede5aff.woff2') format('opentype');
 }
 .content .header-content {
-    width: calc(100% - 40px);
+    width: calc(100% - 50px);
     height: 36px;
-    position: sticky;
+    position: absolute;
     top: 0;
-    left: 0px;
-    z-index: 29;
-    padding: 24px 20px 16px 0;
+    left: 20px;
+    z-index: 30;
+    padding: 24px 10px 16px 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,16 +34,17 @@
 }
 
 .content .content-menu {
-    max-width: calc(100vw - 218px);
+    max-width: 100%;
+    max-height: calc(100vh - 124px);
     position: relative;
-    background-color: #fff;
-    margin-right: 20px;
-
+    padding: 76px 20px 0px 0px;
+    background-color: #f4f5f6!important;
+    overflow: auto;
 }
 .content .content-menu .filter-bar {
     background-color: #fff;
-    position: sticky!important;
-    right: 0px;
+    position: sticky;
+    left: 0px;
     z-index: 28;
 }
 

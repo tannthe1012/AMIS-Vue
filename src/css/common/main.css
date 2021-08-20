@@ -4,16 +4,13 @@
     font-size: 13px;
     overflow-x: hidden;
     max-height: 100vh;
+    box-sizing: border-box;
 }
+
 @font-face {
     font-family: 'notosans-regular';
     src: url('../../assets/fonts/notosans-regular.2cb88a13.woff2') format('opentype');
 }
-@font-face {
-    font-family: 'GoogleSans-Bold';
-    src: url('../../assets/font/GoogleSans-Bold.otf') format('opentype');
-}
-
 
 
 .btn-firstpage {

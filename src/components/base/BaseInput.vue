@@ -1,17 +1,14 @@
 <template>
   <div class="form-input">
-    <label for="name"
-      >{{ label
-      }}<span v-if="required"
-        >(<span style="color: brown">*</span>)</span
-      ></label
-    ><br />
+    <label class="flex" for="name">
+      <div class="ms-title-input">{{ label }}</div>
+      <div v-show="required" class="ms-input-title-require">&nbsp;*</div>
+    </label>
+    <!-- <br /> -->
     <input
       :type="type"
-      :title="errorMessage"
       :class="[
         { 'error-input': error == true },
-        { 'input-salary': label == textSalary },
       ]"
       :value="valueInput"
       @blur="validate(valueInput)"
@@ -24,9 +21,7 @@
 export default {
   data() {
     return {
-      textSalary: "Mức lương cơ bản",
       error: false,
-      errorMessage: "",
       valueInput: this.value,
       regexEmail:
         /^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
@@ -73,17 +68,18 @@ export default {
       }
       if (!value || value == null) {
         this.error = true;
-        this.errorMessage = "Trường này không được phép bỏ trống";
+        this.$refs.refinput.title = `${this.label} không được phép bỏ trống`;
       } else {
-        this.errorMessage = "";
+        this.$refs.refinput.title = "";
         this.error = false;
       }
+      
       if (this.label == "Email" && value != "") {
         if (!this.regexEmail.test(value)) {
           this.error = true;
-          this.errorMessage = "Email không đúng định dạng";
+          this.$refs.refinput.title = "Email không đúng định dạng";
         } else {
-          this.errorMessage = "";
+          this.$refs.refinput.title = "";
           this.error = false;
         }
       }
@@ -93,9 +89,24 @@ export default {
 </script>
 <style scoped>
 @import "../../css/common/form.css";
-.input-salary {
-  text-align: right;
-  padding-right: 55px;
-  padding-left: 0px;
+@font-face {
+  font-family: "notosans-bold";
+  src: url("../../assets/fonts/notosans-bold.3ede5aff.woff2") format("opentype");
+}
+.ms-input-title-require {
+  color: red;
+}
+.ms-title-input {
+    font-size: 12px;
+    white-space: nowrap;
+    font-family: notosans-bold;
+    cursor: grab;
+}
+.ms-form-content label {
+  max-height: 16px;
+  box-sizing: border-box;
+}
+input:hover {
+  outline: 1px solid #e2e2e2;
 }
 </style>

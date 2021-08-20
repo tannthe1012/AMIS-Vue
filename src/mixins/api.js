@@ -29,7 +29,7 @@ export const api = {
             await axios
                 .get("https://localhost:44332/api/v1/Employees")
                 .then((response) => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     this.$store.state.employeeList= [];
                     this.$store.state.employeeList = response.data;
                 })
@@ -41,22 +41,34 @@ export const api = {
         * Hàm lấy dữ liệu của table
         * Created By:  NTTan (15/7/2021)
         */
-        async getPosition() {
-
+        async checkEmployeeCodeExist(employeeCode) {
+            var isExist;
             await axios
-                .get("https://localhost:44332/api/v1/Positions")
+                .get(`https://localhost:44332/api/v1/Employees/CheckCodeExist/${employeeCode}`)
                 .then((response) => {
-                    this.$store.state.position = [],
-                    response.data.forEach((element) => {
-                        this.$store.state.position.push({
-                            id: element.PositionId,
-                            name: element.PositionName,
-                        });
-                    });
+                    isExist = response.data
+                    
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+            return isExist;
+        },
+        /**
+        * Hàm lấy dữ liệu của table
+        * Created By:  NTTan (15/7/2021)
+        */
+         async getNewEmployeeCode() {
+            var newCode;
+            await axios
+                .get(`https://localhost:44332/api/v1/Employees/NewEmployeeCode`)
+                .then((response) => {
+                    newCode = response.data  
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            return newCode;
         },
 
 

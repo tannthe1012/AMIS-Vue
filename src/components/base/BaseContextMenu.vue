@@ -1,7 +1,10 @@
 <template>
-    <div id="contextmenu">
-        <div id="contextmenu-update" @click="showDataFormDetail">Sửa</div>
-        <div id="contextmenu-delete" @click="showPopupDetele">Xóa</div>
+    <div class="contextmenu">
+        
+            <div class="contextmenu-tooltip" @click="duplicateEmployee">Nhân bản</div>
+            <div class="contextmenu-tooltip" @click="showPopupDetele">Xóa</div>
+            <div class="contextmenu-tooltip" @click="showPopupDetele">Ngừng sử dụng</div>
+       
     </div>
 </template>
 <script>
@@ -19,8 +22,8 @@ export default {
          * Xử lí sự kiện khi nhấn nút Sửa
          * Created By: NTTan (20/7/2021)
          */
-        showDataFormDetail() {
-            this.$emit("showDataFormDetail");
+        duplicateEmployee() {
+            this.$emit("duplicateEmployee");
         }
     },
 }

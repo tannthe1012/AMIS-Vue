@@ -1,58 +1,79 @@
 <template>
   <div class="modal-popup" id="modal-popup" ref="Popup">
     <div class="popup">
-      <div class="popup-btn-x" @click="closePopup"></div>
-      <div class="popup-title"></div>
-      <div class="popup-content">
-        <div class="popup-content-icon" :class="{'close-confirm-close': typePopup == dataPopup.buttonText}" v-html="dataPopup.icon"></div>
-        <div class="popup-content-text">{{ dataPopup.title }}</div>
+      <div class="content-popup">
+        <div class="mi-icon-48" :class="dataPopup.classIcon"></div>
+        <div class="message-popup">
+          <span>{{ dataPopup.title }}</span>
+        </div>
       </div>
-      <div class="popup-btn">
-        <button class="m-popup-btn popup-btn-close" @click="closePopup">Hủy</button>
-        <button class="m-popup-btn popup-btn-confirm" :class="{'popup-confirm-close': typePopup == dataPopup.buttonText}" @click="confirmPopup">
-          {{ dataPopup.buttonText }}
-        </button>
-      </div>
+      <div class="mess-line"></div>
+      <div class="form-footer" :class="{'justify-content-center': statusPopup==`ERROR`}">
+            <div class="form-footer-left" v-if="statusPopup!=`ERROR`">
+              <button class="m-btn-default" @click="closePopup">Hủy</button>
+            </div>
+            <div class="form-footer-right">
+              <button v-if="statusPopup == 'CLOSE'" class="m-btn-default" @click="closePopupAndForm">Không</button>
+              <button class="m-btn" @click="confirmPopup">{{ dataPopup.buttonConfirm }}</button>
+            </div>
+        </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "BasePopup",
-  data() {
-    return {
-      typePopup: "Đóng",
-    }
-  },
   props: {
     
     dataPopup: {
-      icon: String,
+      classIcon: String,
       title: String,
-      buttonText: String,
+      buttonConfirm: String,
     },
   },
-  
- 
+  data() {
+    return {
+      statusPopup: String
+    }
+  },
+  /**
+   * Hàm khơi tạo sẽ lấy statusPopup ở store 
+   * Do v-if render HTML trước khi nhân props
+   * Created By: NTTan(18/8/2021)
+   */
+  created() {
+    this.statusPopup = this.$store.state.statusPopup;
+  },
   methods: {
     /**
-     * Hàm gửi yêu cầu confirm popup
-     * Created By: NTTan (20/7/2021)
+     * Hàm gửi yêu cầu confirm popup và gửi lên EmployeePage
+     * Created By: NTTan (19/8/2021)
      */
     confirmPopup() {
       // this.statusPopup = this;
       this.$emit("confirmPopup");
     },
     /**
-     * Hàm gửi yêu cầu đóng Popup
-     * Created By: NTTan (20/7/2021)
+     * Hàm gửi yêu cầu đóng Popup và gửi lên EmployeePage
+     * Created By: NTTan (19/8/2021)
      */
     closePopup() {
         this.$emit("closePopup");
+    },
+    /**
+     * Hàm đóng cả Popup lẫn Form chi tiết và gửi lên EmployeePage
+     * Lưu ý: chỉ dùng cho Popup Close Form
+     * Created by: NTTan (19/8/2021)
+     */
+    closePopupAndForm() {
+        this.$emit("closePopupAndForm");
     }
   },
 };
 </script>
 <style scoped>
 @import "../../css/common/popup.css";
+.justify-content-center {
+  justify-content: center!important;;
+}
 </style>

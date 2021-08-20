@@ -1,12 +1,14 @@
-#contextmenu {
-    border: none;
-    border-radius: 5px;
-    display: flex;
+.contextmenu {
     position: absolute;
-    /* display: none; */
-    transform-origin: top left;
-    animation: menuOpen 0.25s;
-    z-index: 99999;
+    height: auto;
+    width: auto;
+    z-index: 9990;
+    transform: translate(-100%);
+    transition: opacity .25s,transform .25s,width .3s ease;
+    background-color: #fff;
+    border: 1px solid #babec5;
+    border-radius: 2px;
+    padding: 2px 1px;
 }
 
 @keyframes meuOpen {
@@ -18,22 +20,25 @@
     }
 }
 
-#contextmenu-update,
-#contextmenu-delete {
-    text-align: center;
-    height: 20px;
-    width: 50px;
-    padding: 10px 10px;
-    background-color: #BBBBBB;
-    z-index: 99999;
+@font-face {
+    font-family: 'notosans-regular';
+    src: url('../../assets/fonts/notosans-regular.2cb88a13.woff2') format('opentype');
 }
-
-#contextmenu-update:hover {
-    color: #ffffff;
-    background-color: #2FBE8E;
+.contextmenu-tooltip {
+    white-space: nowrap;
+    transition: all .2s ease;
+    position: relative;
+    z-index: 1000;
+    text-align: left;
+    list-style: none;
+    font-size: 13px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #111111;
+    font-family: notosans-regular;
 }
-
-#contextmenu-delete:hover {
-    color: #ffffff;
-    background-color: #F65454;
+.contextmenu-tooltip:hover {
+    background-color: #e8e9ec;
+    color: #08bf1e;
 }
